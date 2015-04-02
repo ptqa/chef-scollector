@@ -2,31 +2,18 @@
 # Cookbook Name:: scollector
 # Recipe:: default
 #
-# Copyright 2015, Twiket Ltd
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-include_recipe "runit"
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-cookbook_file "/usr/local/bin/scollector" do
-  source "scollector-linux-amd64"
-  action :create
-  mode '0755'
-end
-
-runlist_roles = node.run_list.roles
-
-variables =  Mash.new
-variables['environment'] = node.chef_environment.gsub("_", "")
-variables['role'] = 'undefined'
-role0 = runlist_roles[0]
-variables['role'] = runlist_roles[0] unless (role0.nil? or role0 == '')
-
-template "/usr/local/bin/scollector.conf" do
-  mode 0644
-  source "scollector.conf.erb"
-  variables variables
-end
-
-runit_service "scollector" do
-  run_template_name 'scollector'
-  restart_on_update true
-end
+include_recipe 'golang::packages'
+include_recipe 'scollector::configure'
+include_recipe 'scollector::collectors'

@@ -1,3 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 exec 2>&1
-exec /usr/local/bin/scollector -d -h="http://192.168.169.21:8070"
+source /usr/local/rvm/scripts/rvm
+exec /usr/local/bin/scollector -conf=/etc/scollector/scollector.conf -c /etc/scollector/collectors/ -d
