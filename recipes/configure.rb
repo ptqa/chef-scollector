@@ -16,8 +16,6 @@
 
 include_recipe 'runit'
 
-runlist_roles = node.run_list.roles
-
 directory node['scollector']['conf_dir'] do
   owner 'root'
   group 'root'
@@ -27,11 +25,12 @@ end
 
 template "#{node['scollector']['conf_dir']}/scollector.conf" do
   mode 0644
+  cookbook node['scollector']['config_cookbook']
   source 'scollector.conf.erb'
   notifies :restart, 'runit_service[scollector]'
 end
 
 runit_service 'scollector' do
-  run_template_name 'scollector'
+  cookbook node['scollector']['config_cookbook']
   restart_on_update true
 end

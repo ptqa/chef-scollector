@@ -1,4 +1,3 @@
 #!/bin/bash
 exec 2>&1
-source /usr/local/rvm/scripts/rvm
-exec /usr/local/bin/scollector -conf=/etc/scollector/scollector.conf -c /etc/scollector/collectors/ -d
+exec <%= node['scollector']['bin_path'] %> -conf=<%= node['scollector']['conf_dir'] %>/scollector.conf -c <%= node['scollector']['collectors_dir'] %> -d

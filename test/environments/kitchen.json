@@ -1,0 +1,6 @@
+{
+  "name": "kitchen",
+  "description": "Chef environment for scollector tags",
+  "json_class": "Chef::Environment",
+  "chef_type": "environment"
+}
