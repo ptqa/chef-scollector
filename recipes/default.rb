@@ -16,4 +16,3 @@
 
 include_recipe 'golang::packages'
 include_recipe 'scollector::configure'
-include_recipe 'scollector::collectors'
