@@ -1,5 +1,3 @@
 gem 'test-kitchen'
-gem 'kitchen-digitalocean'
-gem 'pry'
 gem 'kitchen-vagrant'
 gem 'berkshelf'
