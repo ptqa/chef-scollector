@@ -1,0 +1,7 @@
+Host = "http://<%= node['scollector']['host'] %>:<%= node['scollector']['port'] %>"
+ColDir = "<%= node['scollector']['collectors_dir'] %>"
+
+[Tags]
+<% node['scollector']['tags'].each do |tag,value| -%>
+  <%= tag %> = "<%= value %>"
+<% end -%>

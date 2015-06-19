@@ -1,6 +1,0 @@
-<% taglist = '' -%>
-<% node['scollector']['tags'].each do |tag,value| -%>
-<% taglist += "#{tag}=#{value}," -%>
-<% end -%>
-host = http://<%= node['scollector']['host'] %>:<%= node['scollector']['port'] %>
-tags = <%= taglist.chop! %>
