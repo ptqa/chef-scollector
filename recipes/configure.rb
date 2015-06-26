@@ -16,10 +16,11 @@
 
 include_recipe 'runit'
 
-%w(
-node['scollector']['conf_dir']
-node['scollector']['collectors_dir']
-).each do |dir|
+[
+  node['scollector']['conf_dir'],
+  node['scollector']['collectors_dir'],
+  node['scollector']['log_dir']
+].each do |dir|
   directory dir do
     owner 'root'
     group 'root'
