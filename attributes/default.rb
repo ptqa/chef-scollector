@@ -5,9 +5,12 @@ default['scollector']['conf_dir'] 	= '/etc/scollector'
 default['scollector']['log_dir'] 	= '/var/log/scollector'
 default['scollector']['collectors_dir'] = '/etc/scollector/collectors'
 default['scollector']['config_cookbook'] = 'scollector'
-default['scollector']['tags'] 		= {
-  'environment' => node.chef_environment,
-  'role' => node.run_list.roles.first || 'unknown'
-}
+
+tags = Hash.new().compare_by_identity
+node.run_list.roles.each do |role|
+      tags['role'] = role
+end
+tags['environment'] = node.chef_environment
+default['scollector']['tags'] = tags
 
 default['go']['packages']           	= ['bosun.org/cmd/scollector']
