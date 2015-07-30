@@ -6,14 +6,18 @@ This cookbook downloads and installs [scollector](https://github.com/bosun-monit
 
 Requirements
 ------------
+
 - Chef Client 11.x or better
 
 ### Platforms
-Currently tested only on Ubuntu 14.04. Probably works on Debain and may work on other.
+
+* Centos 7+ with systemd
+* Ubuntu 14.04. Probably works on Debian and may work on others
 
 
 ### Dependent Cookbooks
-- runit
+
+- runit (used on Debian/Ubuntu)
 - golang
 
 Attributes
@@ -27,17 +31,24 @@ Attributes
 * `node['scollector']['collectors_dir']`  - Sets dir for external collectors (scollector runs all executables every `interval` sec in collectors_dir/`interval`/)
 * `node['scollector']['config_cookbook']` - Cookbook where template scollector.conf.erb is stored
 * `node['scollector']['tags']` - Tags to add to metrics, that scollector sends to bosun.
+* `node['scollector']['init_style']` - explicitly set the init system used.  Options are `systemd` or `runit`.  The default is to automatically infer it.  Only CentOS 7+ is recognised so far; everything else defaults to runit.
 
 
 Recipes
 -------
+
 This section describes the recipes in the cookbook and how to use them in your environment.
 
 ### default
+
 Includes the `golang::packages` and `scollector::configure` recipes by default.
 
 ### configure
-Configures scollector.conf and enables runit service for scollector.
+
+Configures scollector.conf and:
+
+* On CentOS 7+: installs systemd service for scollector and starts it
+* Elsewhere: enables runit service for scollector and starts it
 
 
 Usage
@@ -54,14 +65,19 @@ NOTE: Make sure that you are using golang cookbook from github (see Berksfile).
 
 Testing
 -----
+
 [Kitchen](http://kitchen.ci) tests via [busser-serverspec](https://github.com/test-kitchen/busser-serverspec):
 
+* `cp contrib/kitchen.yml.sample .kitchen.yml`
 * `kitchen test`
+
+A sample `.kitchen.yml` is included in the `contrib/` tree.
 
 
 License & Authors
 -----------------
 - Author:: Tony Nyurkin (<ptqa.mail@gmail.com>)
+- Author:: Alex Hewson (<alex@mbird.biz>)
 
 ```text
 

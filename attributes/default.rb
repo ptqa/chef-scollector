@@ -9,5 +9,13 @@ default['scollector']['tags'] 		= {
   'environment' => node.chef_environment,
   'role' => node.run_list.roles.first || 'unknown'
 }
-
 default['go']['packages']           	= ['bosun.org/cmd/scollector']
+
+# Automatically set default init system
+platform_major_num = node['platform_version'].split('.')[0].to_i
+case
+when node['platform'] === 'centos' && platform_major_num >= 7
+  node.default['scollector']['init_style']      = 'systemd'
+else
+  node.default['scollector']['init_style']      = 'runit'
+end
