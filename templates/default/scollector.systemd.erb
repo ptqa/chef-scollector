@@ -1,0 +1,10 @@
+[Unit]
+Description=Scollector, the Bosun Monitoring Agent
+
+[Service]
+Type=simple
+ExecStart=<%= node['scollector']['bin_path'] %> -conf '<%= node['scollector']['conf_dir'] %>/scollector.toml'
+#StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target

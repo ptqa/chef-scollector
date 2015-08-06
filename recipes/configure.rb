@@ -14,7 +14,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'runit'
+
+
+# Select the flavour of Linux we're installing for
+if not node['scollector']['init_style']
+
+  platform_major_num = node['platform_version'].split('.')[0].to_i
+
+  case
+  when node['platform'] === 'centos' && platform_major_num >= 7
+    node.default['scollector']['init_style']      = 'systemd'
+  else
+    node.default['scollector']['init_style']      = 'runit'
+  end
+
+end
+
 
 [
   node['scollector']['conf_dir'],
@@ -33,10 +48,43 @@ template "#{node['scollector']['conf_dir']}/scollector.toml" do
   mode 0644
   cookbook node['scollector']['config_cookbook']
   source 'scollector.toml.erb'
-  notifies :restart, 'runit_service[scollector]'
 end
 
-runit_service 'scollector' do
-  cookbook node['scollector']['config_cookbook']
-  restart_on_update true
+
+
+
+
+case node['scollector']['init_style']
+when 'systemd'
+
+  execute "systemctl_reload" do
+    command     "systemctl daemon-reload"
+    action      :nothing
+  end
+
+  template "/etc/systemd/system/scollector.service" do
+    mode 0644
+    source 'scollector.systemd.erb'
+    notifies    :run,     "execute[systemctl_reload]",  :immediately
+    notifies    :restart, "service[scollector]",        :delayed
+  end
+
+  service 'scollector' do
+    action      [:enable, :start]
+    subscribes  :restart, "template[#{node['scollector']['conf_dir']}/scollector.toml]"
+  end
+
+when 'runit'
+
+  include_recipe 'runit'
+
+  runit_service 'scollector' do
+    cookbook    node['scollector']['config_cookbook']
+    restart_on_update true
+    subscribes  :restart, "template[#{node['scollector']['conf_dir']}/scollector.toml]"
+    action      :enable
+  end
+
+else
+  log "Unsupported platform"
 end
