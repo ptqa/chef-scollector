@@ -15,10 +15,6 @@ provisioner:
     environment: kitchen
 
 platforms:
-  # - name: ubuntu-14.04
-  #   driver_config:
-  #     provision_command:
-  #       - apt-get update -y
   - name: centos-7.0
   - name: ubuntu-14.04
     driver:

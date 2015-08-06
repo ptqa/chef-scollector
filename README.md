@@ -31,7 +31,7 @@ Attributes
 * `node['scollector']['collectors_dir']`  - Sets dir for external collectors (scollector runs all executables every `interval` sec in collectors_dir/`interval`/)
 * `node['scollector']['config_cookbook']` - Cookbook where template scollector.conf.erb is stored
 * `node['scollector']['tags']` - Tags to add to metrics, that scollector sends to bosun.
-* `node['scollector']['init_style']` - explicitly set the init system used.  Options are `systemd` or `runit`.  The default is to automatically infer it.  Only CentOS 7+ is recognised so far; everything else defaults to runit.
+* `node['scollector']['init_style']` - explicitly set the init system used (`systemd` or `runit`). Systemd default for CentOS 7, runit for eveything else.
 
 
 Recipes
@@ -67,7 +67,6 @@ Testing
 -----
 
 [Kitchen](http://kitchen.ci) tests via [busser-serverspec](https://github.com/test-kitchen/busser-serverspec):
-
 * `cp contrib/kitchen.yml.sample .kitchen.yml`
 * `kitchen test`
 
