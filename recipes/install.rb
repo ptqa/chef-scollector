@@ -25,8 +25,8 @@ else
   remote_file 'scollector_binary' do
     path node['scollector']['bin_path']
     source [
-      node.scollector['release_url'],
-      node.scollector['version'],
+      node['scollector']['release_url'],
+      node['scollector']['version'],
       binary
     ].join('/')
     owner 'root'
