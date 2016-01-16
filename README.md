@@ -11,13 +11,14 @@ Requirements
 
 ### Platforms
 
-* Centos 7+ with systemd
-* Ubuntu 14.04. Probably works on Debian and may work on others
+* Centos
+* Ubuntu
+* Debian
 
 
 ### Dependent Cookbooks
 
-- runit (used on Debian/Ubuntu)
+- [poise-service-runit](https://github.com/poise/poise-service)
 - golang
 
 Attributes
@@ -27,11 +28,10 @@ Attributes
 * `node['scollector']['port']` - Sets bosun server port
 * `node['scollector']['bin_path']` - Sets path to scollector executable
 * `node['scollector']['conf_dir']` - Sets dir for scollector config dir
-* `node['scollector']['log_dir']` - Sets dir for logs dir
 * `node['scollector']['collectors_dir']`  - Sets dir for external collectors (scollector runs all executables every `interval` sec in collectors_dir/`interval`/)
 * `node['scollector']['config_cookbook']` - Cookbook where template scollector.conf.erb is stored
 * `node['scollector']['tags']` - Tags to add to metrics, that scollector sends to bosun.
-* `node['scollector']['init_style']` - explicitly set the init system used (`systemd` or `runit`). Systemd default for CentOS 7, runit for eveything else.
+* `node['scollector']['init_style']` - explicitly set the init system used (`systemd`, `runit`, `sysvinit`, `upstart` or `inittab`). Systemd default for CentOS.
 
 
 Recipes
@@ -67,11 +67,7 @@ Testing
 -----
 
 [Kitchen](http://kitchen.ci) tests via [busser-serverspec](https://github.com/test-kitchen/busser-serverspec):
-* `cp contrib/kitchen.yml.sample .kitchen.yml`
 * `kitchen test`
-
-A sample `.kitchen.yml` is included in the `contrib/` tree.
-
 
 License & Authors
 -----------------
