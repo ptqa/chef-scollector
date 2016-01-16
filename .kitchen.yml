@@ -1,0 +1,45 @@
+---
+driver:
+  name: docker
+  binary: /usr/bin/docker
+  use_sudo: false
+  provision_command:
+    - curl -L https://www.chef.io/chef/install.sh | bash -s -- -v 12.6.0
+
+provisioner:
+  name: chef_solo
+  environments_path: test/environments
+  solo_rb:
+    environment: kitchen
+
+platforms:
+  - name: centos
+  - name: ubuntu
+  - name: debian
+
+suites:
+  - name: centos
+    excludes:
+      - ubuntu
+      - debian
+    run_list:
+      - recipe[scollector::default]
+    attributes:
+      scollector:
+        init_style: sysvinit # not testing systemd in docker cause of DBus issue
+
+  - name: debian_based
+    excludes:
+      - centos
+    run_list:
+      - recipe[scollector::default]
+
+  - name: source
+    excludes:
+      - centos
+      - debian
+    run_list:
+      - recipe[scollector::default]
+    attributes:
+      scollector:
+        install_style: source

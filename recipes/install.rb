@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: scollector
-# Recipe:: configure
+# Recipe:: install
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,27 +13,24 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-[
-  node['scollector']['conf_dir'],
-  node['scollector']['collectors_dir']
-].each do |dir|
-  directory dir do
+case node['scollector']['install_style']
+when 'source'
+  node.default['go']['packages']           	 = ['bosun.org/cmd/scollector']
+  node.default['scollector']['bin_path'] 	   = "#{node['go']['gobin']}/scollector"
+  include_recipe 'golang::packages'
+else
+  binary = "scollector-#{node['os']}-#{node['scollector']['arch']}"
+  remote_file 'scollector_binary' do
+    path node['scollector']['bin_path']
+    source [
+      node.scollector['release_url'],
+      node.scollector['version'],
+      binary
+    ].join('/')
     owner 'root'
-    group 'root'
     mode '0755'
     action :create
   end
-end
-
-template "#{node['scollector']['conf_dir']}/scollector.toml" do
-  mode 0644
-  cookbook node['scollector']['config_cookbook']
-  source 'scollector.toml.erb'
-  notifies :restart, 'poise_service[scollector]', :delayed
-end
-
-poise_service 'scollector' do
-  provider node['scollector']['init_style'].to_sym
-  command "#{node['scollector']['bin_path']} -conf=#{node['scollector']['conf_dir']}/scollector.toml -d"
 end

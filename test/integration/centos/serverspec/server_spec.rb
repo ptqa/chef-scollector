@@ -3,11 +3,12 @@ require 'serverspec'
 
 set :backend, :exec
 
-describe file('/etc/systemd/system/scollector.service') do
-  it { should exist }
-  it { should be_file }
-  it { should contain '-conf' }
-end
+#describe file('/etc/systemd/system/scollector.service') do
+#  it { should exist }
+#	it { should be_file }
+#  it { should contain '-conf' }
+#end
+
 
 describe file('/etc/scollector/scollector.toml') do
   it { should be_file }
@@ -15,14 +16,10 @@ describe file('/etc/scollector/scollector.toml') do
   it { should contain '/etc/scollector/collectors' }
 end
 
-describe service('scollector') do
-  it { should be_running }
-end
-
 describe process('scollector') do
   it { should be_running }
 end
 
-describe command('/opt/go/bin/scollector -conf=/etc/scollector/scollector.toml -p -d|head') do
+describe command('/usr/local/bin/scollector -conf=/etc/scollector/scollector.toml -p -d|head') do
   its(:stdout) { should match /OpenTSDB/ }
 end
