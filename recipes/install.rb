@@ -14,6 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe 'chef-sugar'
+
+node.default['scollector']['arch'] = _64_bit? ? 'amd64' : '386'
 
 case node['scollector']['install_style']
 when 'source'
