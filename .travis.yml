@@ -17,3 +17,5 @@ install: chef exec bundle install --jobs=3 --retry=3 --without='vagrant'
 before_script: sudo iptables -L DOCKER || sudo iptables -N DOCKER
 
 script: travis_retry chef exec bundle exec rake integration:docker[${INSTANCE}]
+notifications:
+  email: false
