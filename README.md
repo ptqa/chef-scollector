@@ -1,8 +1,13 @@
-scollector cookbook [![Build Status](https://travis-ci.org/ptqa/chef-scollector.svg?branch=master)](https://travis-ci.org/ptqa/chef-scollector)
+scollector cookbook
 ===================
 
-This cookbook downloads and installs [scollector](https://github.com/bosun-monitor/bosun/tree/master/cmd/scollector) for [bosun](bosun.org).
+[![Build Status](https://travis-ci.org/ptqa/chef-scollector.svg?branch=master)](https://travis-ci.org/ptqa/chef-scollector)
+[![Cookbook Version](https://img.shields.io/cookbook/v/scollector.svg)](https://supermarket.chef.io/cookbooks/scollector)
+[![Code Climate](https://codeclimate.com/github/ptqa/chef-scollector.png)](https://codeclimate.com/github/ptqa/chef-scollector)
+[![Gemnasium](https://img.shields.io/gemnasium/ptqa/chef-scollector.svg)](https://gemnasium.com/ptqa/chef-scollector)
+[![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
+This cookbook downloads and installs [scollector](https://github.com/bosun-monitor/bosun/tree/master/cmd/scollector) for [bosun](bosun.org).
 
 Requirements
 ------------
@@ -42,7 +47,10 @@ This section describes the recipes in the cookbook and how to use them in your e
 
 ### default
 
-Includes the `golang::packages` and `scollector::configure` recipes by default.
+Includes the `scollector::install` and `scollector::configure`.
+
+### install
+Detects OS and arch, then installs proper binary or builds from source.
 
 ### configure
 
