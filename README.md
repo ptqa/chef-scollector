@@ -1,4 +1,4 @@
-scollector Cookbook
+scollector cookbook [![Build Status](https://travis-ci.org/ptqa/chef-scollector.svg?branch=master)](https://travis-ci.org/ptqa/chef-scollector)
 ===================
 
 This cookbook downloads and installs [scollector](https://github.com/bosun-monitor/bosun/tree/master/cmd/scollector) for [bosun](bosun.org).
