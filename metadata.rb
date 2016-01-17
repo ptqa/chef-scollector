@@ -12,3 +12,4 @@ supports 'centos'
 
 depends 'golang', '>= 1.5.0'
 depends 'poise-service-runit'
+depends 'chef-sugar'

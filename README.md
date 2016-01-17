@@ -19,7 +19,8 @@ Requirements
 ### Dependent Cookbooks
 
 - [poise-service-runit](https://github.com/poise/poise-service)
-- golang
+- [golang](https://github.com/NOX73/chef-golang)
+- [chef-sugar](https://github.com/sethvargo/chef-sugar)
 
 Attributes
 ----------
