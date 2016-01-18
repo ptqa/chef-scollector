@@ -1,4 +1,6 @@
 ---
+transport:
+  name: sftp
 driver:
   name: docker
   binary: /usr/bin/docker
