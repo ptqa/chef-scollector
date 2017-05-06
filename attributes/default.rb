@@ -9,3 +9,4 @@ default['scollector']['tags'] 		       = {
   'role' => node.run_list.roles.first || 'unknown'
 }
 default['go']['packages']           	= ['bosun.org/cmd/scollector']
+default['go']['version']           	= '1.7'
